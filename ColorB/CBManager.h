@@ -5,6 +5,7 @@
 #ifndef CBMANAGER_H
 #define CBMANAGER_H
 
+#include "boost/format.hpp"
 #include "CBArea.h"
 #include "../Common/RMMVArray.h"
 
@@ -36,10 +37,9 @@ protected:
 public:
     std::string ToString() const
     {
-	char infoString[128];
-	sprintf(infoString, "X=%i Red=%i Green=%i Blue=%i", areas.GetAt(0), areas.GetAt(1), areas.GetAt(2));
-	std::string infoStdString = infoString;
-	return infoStdString;
+	std::string infoString;
+	infoString = str( boost::format("X=%i Red=%i Green=%i Blue=%i") % areas.GetAt(0) % areas.GetAt(1) % areas.GetAt(2) % areas.GetAt(3));
+	return infoString;
     }
 
     // Create all areas

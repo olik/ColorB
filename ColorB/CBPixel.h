@@ -4,6 +4,8 @@
 #ifndef CBPIXEL_H
 #define CBPIXEL_H
 
+#include "boost/format.hpp"
+
 class CBPixel
 {
 public:
@@ -35,6 +37,15 @@ private:
 public:
     void SetY(const int _y) { y = _y; }
     int GetY() const { return y; }
+
+    // To string
+public:
+    std::string ToString()
+    {
+	std::string infoString;
+	infoString = str ( boost::format("[%i,%i]") % GetX() % GetY() );
+	return infoString;
+    }
 };
 
 #endif // CBPIXEL_H

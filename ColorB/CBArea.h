@@ -33,10 +33,10 @@ protected:
     // Is pixel inside the area
     bool IsPixelInsideTheArea(const CBPixel _pixel) const
     {
-	if (!area.Find(CBPixel(_pixel.GetX()+1, _pixel.GetY()))) return 0;
-	if (!area.Find(CBPixel(_pixel.GetX()-1, _pixel.GetY()))) return 0;
-	if (!area.Find(CBPixel(_pixel.GetX(), _pixel.GetY()+1))) return 0;
-	if (!area.Find(CBPixel(_pixel.GetX(), _pixel.GetY()-1))) return 0;
+	if (area.Find(CBPixel(_pixel.GetX()+1, _pixel.GetY())) == -1) return 0;
+	if (area.Find(CBPixel(_pixel.GetX()-1, _pixel.GetY())) == -1) return 0;
+	if (area.Find(CBPixel(_pixel.GetX(), _pixel.GetY()+1)) == -1) return 0;
+	if (area.Find(CBPixel(_pixel.GetX(), _pixel.GetY()-1)) == -1) return 0;
 	return 1;
     }
     // Update border removing all non-border pixels
@@ -46,11 +46,7 @@ public:
 	for (int areaIndex = 0; areaIndex < area.GetCount(); areaIndex++)
 	{
 	    CBPixel pixel = area.GetAt(areaIndex);
-	    if (IsPixelInsideTheArea(pixel))
-	    {
-		int borderIndex = border.Find(pixel);
-		if (borderIndex != -1) border.RemoveAt(borderIndex);
-	    }
+	    if (IsPixelInsideTheArea(pixel)) RemoveBorderPixel(pixel);
 	}
     }
 
@@ -93,17 +89,19 @@ public:
 	area.Add(pixel);
 	border.Add(pixel);
     }
-    void UpdatePixel(CBPixel pixel, int isBorder)
+    void RemovePixel(const CBPixel _pixel)
     {
-	int borderIndex = border.Find(pixel);
-	if ( (borderIndex == -1) && (isBorder) ) border.Add(pixel);
-	if ( (borderIndex != -1) && (!isBorder) ) border.RemoveAt(borderIndex);
+	RemoveBorderPixel(_pixel);
+	RemoveAreaPixel(_pixel);
     }
-    void RemovePixel(CBPixel pixel)
+    void RemoveAreaPixel(const CBPixel _pixel)
     {
-	int areaIndex = area.Find(pixel);
+	int areaIndex = area.Find(_pixel);
 	if (areaIndex != -1) area.RemoveAt(areaIndex);
-	int borderIndex = border.Find(pixel);
+    }
+    void RemoveBorderPixel(const CBPixel _pixel)
+    {
+	int borderIndex = border.Find(_pixel);
 	if (borderIndex != -1) border.RemoveAt(borderIndex);
     }
 
@@ -135,6 +133,7 @@ public:
 		return 1;
 	    }
 	}
+	return 0;
     }
 
     // Dominate current area
@@ -144,9 +143,12 @@ public:
 	if (!ActivateOnePixel(dominateArea, &activePixel)) return 0;
 	//
 	CBPixel enemyPixel = SelectOnePixelToDominate(dominateArea, activePixel);
-	if (IsPixelAtTheBorder(activePixel) == 1) UpdatePixel(activePixel, 0);
-	//
 	dominateArea->RemovePixel(enemyPixel);
+	AddPixel(enemyPixel);
+	UpdateBorderPixels();
+	dominateArea->UpdateBorderPixels();
+	//
+	return 1;
     }
 
     // Activate one of pixel
@@ -177,7 +179,7 @@ protected:
 	if (dominateArea->IsPixelOnTheBorder(CBPixel(_pixel.GetX(), _pixel.GetY()+1))) activeBorder.Add(CBPixel(_pixel.GetX(), _pixel.GetY()+1));
 	if (dominateArea->IsPixelOnTheBorder(CBPixel(_pixel.GetX(), _pixel.GetY()-1))) activeBorder.Add(CBPixel(_pixel.GetX(), _pixel.GetY()-1));
 
-	return activeBorder.GetAt(CBUtils::Random(4));
+	return activeBorder.GetAt(CBUtils::Random(activeBorder.GetCount()));
     }
 
 };

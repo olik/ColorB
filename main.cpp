@@ -3,11 +3,13 @@
 
 #include "iostream"
 #include "ColorB/CBManager.h"
+#include "ColorBTest/CBTestManager.h"
 
 int main(int argc, char *argv[])
 {
-    CBManager manager;
-    std::cout << manager.ToString();
+    QTextCodec::setCodecForCStrings( QTextCodec::codecForName( "Windows-1251" ) );
+    CBTestManager testData;
+    QTest::qExec( &testData );
 
 //    QApplication a(argc, argv);
 //    MainWindow w;

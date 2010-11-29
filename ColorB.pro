@@ -4,6 +4,7 @@
 QT += testlib
 TARGET = ColorB
 TEMPLATE = app
+INCLUDEPATH += D:\\Boost\\include\\boost-1_42
 SOURCES += main.cpp \
     mainwindow.cpp
 HEADERS += mainwindow.h \
@@ -11,4 +12,6 @@ HEADERS += mainwindow.h \
     ColorB/CBArea.h \
     Common/CBUtils.h \
     Common/RMMVArray.h \
-    ColorB/CBManager.h
+    ColorB/CBManager.h \
+    ColorBTest/CBTestManager.h \
+    ColorB/CBAreaOutput.h
