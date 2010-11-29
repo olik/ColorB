@@ -6,7 +6,8 @@ TARGET = ColorB
 TEMPLATE = app
 INCLUDEPATH += D:\\Boost\\include\\boost-1_42
 SOURCES += main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    colorbwidget.cpp
 HEADERS += mainwindow.h \
     ColorB/CBPixel.h \
     ColorB/CBArea.h \
@@ -14,4 +15,6 @@ HEADERS += mainwindow.h \
     Common/RMMVArray.h \
     ColorB/CBManager.h \
     ColorBTest/CBTestManager.h \
-    ColorB/CBAreaOutput.h
+    ColorB/CBAreaOutput.h \
+    ColorB/CBPixelArea.h \
+    colorbwidget.h

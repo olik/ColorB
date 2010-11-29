@@ -2,15 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
-#include "ColorB/CBManager.h"
+#include "ColorBWidget.h"
 
-class MainWindow : public QMainWindow
+class MainWindow : public QWidget
 {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+private:
+    ColorBWidget * colorB;
 };
 
 #endif // MAINWINDOW_H

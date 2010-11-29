@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 {
+    colorB = new ColorBWidget(this);
 }
 
 MainWindow::~MainWindow()

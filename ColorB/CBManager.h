@@ -17,6 +17,13 @@ public:
 	currentStep = 0;
 	CreateAllAreas();
     }
+    ~CBManager()
+    {
+	for (int areaIndex = 0; areaIndex < areas.GetCount(); areaIndex++)
+	{
+	    delete areas.GetAt(areaIndex);
+	}
+    }
 
     // Current step
 protected:
@@ -32,6 +39,8 @@ public:
     // All areas
 protected:
     CRMMVArray<CBArea*> areas;
+public:
+    CRMMVArray<CBArea*> GetAreas() const { return areas; }
 
     // Print areas
 public:
@@ -92,6 +101,11 @@ protected:
 	areaRed->AddDominateArea(areaGreen);
 	areaGreen->AddDominateArea(areaBlue);
 	areaBlue->AddDominateArea(areaRed);
+
+	areaX->SetColor(QColor(0,0,0));
+	areaRed->SetColor(QColor(226,0,0));
+	areaGreen->SetColor(QColor(0,226,0));
+	areaBlue->SetColor(QColor(0,0,226));
 
 	areas.Add(areaX);
 	areas.Add(areaRed);
